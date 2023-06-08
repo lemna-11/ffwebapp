@@ -9,7 +9,6 @@ import com.vaadin.flow.router.Route;
 @Route("")
 public class MainPage extends AppLayout {
     public MainPage(){
-        System.out.println("krill yourself");
         addToNavbar(new H1("why"));
         addToDrawer(new Button("krill"));
         setContent(new Text("hello world"));
