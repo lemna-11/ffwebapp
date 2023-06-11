@@ -14,6 +14,6 @@ public class Order {
         return products.stream()
                 .map(Product::getPriceInCents)
                 .reduce(Long::sum)
-                .orElseThrow();
+                .orElse(0L);
     }
 }
