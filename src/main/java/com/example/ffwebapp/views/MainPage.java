@@ -19,6 +19,11 @@ public class MainPage extends AppLayout {
             System.out.println("sys");
             categoryCaller.create("amogus");
         });
+        Button checkout = new Button("checkout");
+        order.addClickListener(event -> {
+            System.out.println("sys");
+            categoryCaller.create("amogus");
+        });
         addToDrawer(order);
         setContent(new Text("hello world"));
     }
