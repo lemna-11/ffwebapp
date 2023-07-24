@@ -38,12 +38,12 @@ public class OrderCaller {
     public Order read(Long id){
         Map<String, Long> vars = new HashMap<>();
         vars.put("id", id);
-        return restTemplate.getForEntity(baseURI + "/read", Order.class, vars).getBody();
+        return restTemplate.getForEntity(baseURI + "/read?id={id}", Order.class, vars).getBody();
     }
 
     public void delete(Long id){
         Map<String, Long> vars = new HashMap<>();
         vars.put("id", id);
-        restTemplate.delete(baseURI + "/delete", vars);
+        restTemplate.delete(baseURI + "/delete?id={id}", vars);
     }
 }

@@ -13,6 +13,12 @@ import com.vaadin.flow.router.Route;
 public class MainPage extends AppLayout {
     public MainPage(CategoryCaller categoryCaller, OrderCaller orderCaller, ProductCaller productCaller){
         addToNavbar(new H1("why"));
+        Button toCheckout = new Button("Check out");
+        toCheckout.addClickListener(e -> getUI().orElseThrow().navigate(CheckoutPage.class));
+        addToNavbar(toCheckout);
+        Button toOrder = new Button("Order");
+        toCheckout.addClickListener(e -> getUI().orElseThrow().navigate(OrderPage.class));
+        addToNavbar(toOrder);
         addToDrawer(new Button("krill"));
         Button order = new Button("order");
         order.addClickListener(event -> {
@@ -25,6 +31,7 @@ public class MainPage extends AppLayout {
             categoryCaller.create("amogus");
         });
         addToDrawer(order);
+        addToDrawer(checkout);
         setContent(new Text("hello world"));
     }
 }

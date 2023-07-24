@@ -23,7 +23,7 @@ public class ProductCaller {
         vars.put("name", name);
         vars.put("category", category);
         vars.put("price", price);
-        return restTemplate.postForObject(baseURI + "/create", null, Long.class, vars);
+        return restTemplate.postForObject(baseURI + "/create?name={name}&category={category}&price={price}", null, Long.class, vars);
     }
 
     public Long update(Long id, String name, ProductCategory category, Long price) {
@@ -32,18 +32,18 @@ public class ProductCaller {
         vars.put("name", name);
         vars.put("category", category);
         vars.put("price", price);
-        return restTemplate.postForObject(baseURI + "/update", null, Long.class, vars);
+        return restTemplate.postForObject(baseURI + "/update?id={id}&name={name}&category={category}&price={price}", null, Long.class, vars);
     }
 
     public Product read(Long id) {
         Map<String, Object> vars = new HashMap<>(1);
         vars.put("id", id);
-        return restTemplate.getForEntity(baseURI + "/read", Product.class, vars).getBody();
+        return restTemplate.getForEntity(baseURI + "/read?id={id}", Product.class, vars).getBody();
     }
 
     public void delete(Long id){
         Map<String, Object> vars = new HashMap<>(1);
         vars.put("id", id);
-        restTemplate.delete(baseURI + "/delete", vars);
+        restTemplate.delete(baseURI + "/delete?id={id}", vars);
     }
 }
