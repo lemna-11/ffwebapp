@@ -4,7 +4,9 @@ import com.example.ffwebapp.middleware.entities.ProductCategory;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Service
@@ -34,6 +36,10 @@ public class CategoryCaller {
         Map<String, Long> vars = new HashMap<>(1);
         vars.put("id", id);
         return restTemplate.getForEntity(baseURI + "/read?id={id}", ProductCategory.class, vars).getBody();
+    }
+
+    public List<ProductCategory> readAll(){
+        return Arrays.asList(restTemplate.getForEntity(baseURI + "/readAll", ProductCategory[].class).getBody());
     }
 
     public void delete(Long id){

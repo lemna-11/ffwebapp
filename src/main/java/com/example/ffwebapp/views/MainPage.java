@@ -35,7 +35,12 @@ public class MainPage extends AppLayout {
                 .set("margin", "0");
 
 
-        Tabs cats = categoryCaller.readAll(id);
+
+        List<ProductCategory> cats = categoryCaller.readAll();
+        for(ProductCategory category : cats){
+            addToDrawer(new Button(category.getCategoryName()));
+        }
+
 
         Button checkout = new Button("Checkout");
             checkout.addClickListener(event -> {
@@ -44,7 +49,6 @@ public class MainPage extends AppLayout {
 
         checkout.setAutofocus(true);
 
-        addToDrawer(cats);
         addToNavbar(toggle, title);
         addToDrawer(checkout);
         setPrimarySection(Section.DRAWER);
@@ -61,15 +65,16 @@ public class MainPage extends AppLayout {
             if (select.isPresent()){
                 if(order==null){
                     Long id = ordercaller.create(List.of(select.get()), OrderStatus.IN_PROCESS);
-                    this.order = new Order(id, List, OrderStatus.IN_PROCESS);
+                    this.order = new Order();
+                    order.setId(id);
+                    order.setStatus(OrderStatus.IN_PROCESS);
+                    order.setProducts(List.of(select.get()));
                 }
 
             }
          }
         );
 
-        List<Product> products = ;
-        grid.setItems(Product);
         grid.setAllRowsVisible(true);
         setContent(grid);
 

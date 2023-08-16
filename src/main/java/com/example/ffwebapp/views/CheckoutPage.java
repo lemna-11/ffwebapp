@@ -4,6 +4,8 @@ import com.example.ffwebapp.middleware.callers.CategoryCaller;
 import com.example.ffwebapp.middleware.callers.OrderCaller;
 import com.example.ffwebapp.middleware.entities.Order;
 import com.example.ffwebapp.middleware.entities.Product;
+import com.example.ffwebapp.middleware.entities.ProductCategory;
+import com.example.ffwebapp.middleware.entities.singleorder;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.applayout.AppLayout;
 import com.vaadin.flow.component.applayout.DrawerToggle;
@@ -17,6 +19,7 @@ import com.vaadin.flow.router.Route;
 import org.jsoup.select.CombiningEvaluator;
 
 import javax.swing.border.Border;
+import java.util.List;
 
 @Route("checkout")
 
@@ -28,25 +31,27 @@ public class CheckoutPage extends AppLayout {
         H1 title = new H1("your order");
         title.getStyle().set("font-size", "var(--lumo-font-size-l)")
                 .set("margin", "0");
-        Tabs cats = categoryCaller.readAll(id);
 
-        addToDrawer(cats);
+        List<ProductCategory> cats = categoryCaller.readAll();
+        for(ProductCategory category : cats){
+            addToDrawer(new Button(category.getCategoryName()));
+        }
+
         addToNavbar(toggle, title);
 
         setPrimarySection(Section.DRAWER);
 
-        Grid<Order> grid = new Grid<>(Order.class, false);
-        grid.addColumn(Order::getName).setHeader("Product Name");
-        grid.addColumn(Order::getPriceInCents).setHeader("Product Price");
-        grid.addColumn(Order::getCategory).setHeader("Product Category");
+        Grid<Order> grid = new Grid<>(Order.class, true);
+
 
         Button cancel = new Button("Cancel your order");
-        cancel.setAutofocus(true);
-        cancel.addClickListener(event -> {
+         cancel.setAutofocus(true);
+             cancel.addClickListener(event -> {
             UI.getCurrent().navigate("");
-            orderCaller.delete(Order.getId());
+            orderCaller.delete(singleorder.getOrder().getId());
         });
-
+             addToDrawer(cancel);
+    setContent(grid);
 
     }
 }
