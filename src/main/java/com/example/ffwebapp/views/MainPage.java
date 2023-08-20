@@ -13,7 +13,6 @@ import com.vaadin.flow.component.applayout.DrawerToggle;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.html.H1;
-import com.vaadin.flow.component.tabs.Tabs;
 import com.vaadin.flow.router.Route;
 
 
@@ -28,7 +27,7 @@ public class MainPage extends AppLayout {
 
     public MainPage(CategoryCaller categoryCaller, OrderCaller ordercaller, ProductCaller productCaller) {
         DrawerToggle toggle = new DrawerToggle();
-
+        Grid<Product> grid = new Grid<>(Product.class, false);
 
         H1 title = new H1("Product");
         title.getStyle().set("font-size", "var(--lumo-font-size-l)")
@@ -38,7 +37,11 @@ public class MainPage extends AppLayout {
 
         List<ProductCategory> cats = categoryCaller.readAll();
         for(ProductCategory category : cats){
-            addToDrawer(new Button(category.getCategoryName()));
+            Button categoryButton = new Button(category.getCategoryName());
+            categoryButton.addClickListener(e -> {
+                grid.setItems(productCaller.readAllByCategory(category));
+            });
+            addToDrawer(categoryButton);
         }
 
 
@@ -54,7 +57,7 @@ public class MainPage extends AppLayout {
         setPrimarySection(Section.DRAWER);
 
 
-        Grid<Product> grid = new Grid<>(Product.class, false);
+
         grid.addColumn(Product::getName).setHeader("Product Name");
         grid.addColumn(Product::getPriceInCents).setHeader("Product Price");
         grid.addColumn(Product::getCategory).setHeader("Product Category");

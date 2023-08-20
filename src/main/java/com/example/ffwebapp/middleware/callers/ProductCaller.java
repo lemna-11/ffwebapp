@@ -46,4 +46,10 @@ public class ProductCaller {
         vars.put("id", id);
         restTemplate.delete(baseURI + "/delete?id={id}", vars);
     }
+
+    public Product[] readAllByCategory(ProductCategory cat){
+        Map<String, Object> vars = new HashMap<>(1);
+        vars.put("cat", cat.getId());
+        return restTemplate.getForObject(baseURI + "/readByCategory?category={cat}", Product[].class, vars);
+    }
 }
