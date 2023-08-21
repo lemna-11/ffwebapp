@@ -2,6 +2,7 @@ package com.example.ffwebapp.views;
 
 import com.example.ffwebapp.middleware.callers.CategoryCaller;
 import com.example.ffwebapp.middleware.callers.OrderCaller;
+import com.example.ffwebapp.middleware.callers.ProductCaller;
 import com.example.ffwebapp.middleware.entities.Order;
 import com.example.ffwebapp.middleware.entities.Product;
 import com.example.ffwebapp.middleware.entities.ProductCategory;
@@ -25,8 +26,10 @@ import java.util.List;
 
 public class CheckoutPage extends AppLayout {
 
-    public CheckoutPage(OrderCaller orderCaller, CategoryCaller categoryCaller) {
+    public CheckoutPage(OrderCaller orderCaller, CategoryCaller categoryCaller, ProductCaller productCaller) {
         DrawerToggle toggle = new DrawerToggle();
+        Grid<Product> gridd = new Grid<>(Product.class, false);
+
 
         H1 title = new H1("your order");
         title.getStyle().set("font-size", "var(--lumo-font-size-l)")
@@ -34,7 +37,12 @@ public class CheckoutPage extends AppLayout {
 
         List<ProductCategory> cats = categoryCaller.readAll();
         for(ProductCategory category : cats){
+            Button categoryButton = new Button(category.getCategoryName());
             addToDrawer(new Button(category.getCategoryName()));
+            categoryButton.addClickListener(e -> {
+                UI.getCurrent().navigate("");
+                gridd.setItems(productCaller.readAllByCategory(category));
+            });
         }
 
         addToNavbar(toggle, title);
