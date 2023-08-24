@@ -47,7 +47,7 @@ public class MainPage extends AppLayout {
 
         Button checkout = new Button("Checkout");
             checkout.addClickListener(event -> {
-                UI.getCurrent().navigate("checkout");
+                UI.getCurrent().navigate("order");
             });
 
         checkout.setAutofocus(true);

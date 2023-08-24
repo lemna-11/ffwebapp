@@ -1,7 +1,7 @@
 package com.example.ffwebapp.middleware.entities;
 
 public class singleorder {
-    private static Order order = new Order();
+    public static Order order = new Order();
     private singleorder(){
 
     }

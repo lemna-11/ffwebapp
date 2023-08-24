@@ -3,12 +3,11 @@ package com.example.ffwebapp.middleware.callers;
 import com.example.ffwebapp.middleware.entities.Order;
 import com.example.ffwebapp.middleware.entities.OrderStatus;
 import com.example.ffwebapp.middleware.entities.Product;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service
 public class OrderCaller {
@@ -46,4 +45,13 @@ public class OrderCaller {
         vars.put("id", id);
         restTemplate.delete(baseURI + "/delete?id={id}", vars);
     }
+    public List<Product> readAll(){
+        return Arrays.asList(restTemplate.getForEntity(baseURI + "/readAll", Product[].class).getBody());
+    }
+
+    public List<ResponseEntity<Order[]>> readAllOrders(){
+        return Arrays.asList(restTemplate.getForEntity(baseURI + "/readAllOrders", Order[].class));
+    }
+
+
 }
