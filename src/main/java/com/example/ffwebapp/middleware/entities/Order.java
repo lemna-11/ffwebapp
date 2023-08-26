@@ -17,4 +17,16 @@ public class Order {
                 .reduce(Long::sum)
                 .orElse(0L);
     }
+    public String receipt() {
+        StringBuilder sb = new StringBuilder("Order " + id + "\n");
+
+        long totalprice = (long) 0;
+
+        for (Product p : products) {
+            sb.append(p.getName() + " --- " + p.getPriceInCents() + " cents\n");
+            totalprice += p.getPriceInCents();
+        }
+        sb.append("Price: " + totalprice + " cents\n Enjoy your meal :3");
+        return sb.toString();
+    }
 }

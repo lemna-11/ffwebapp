@@ -12,6 +12,11 @@ import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.html.H1;
 import com.vaadin.flow.router.Route;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+
 @Route("pickup")
 public class ResultPage extends AppLayout {
     public ResultPage(OrderCaller ord){
@@ -35,7 +40,29 @@ public class ResultPage extends AppLayout {
         });
         addToDrawer(exit);
 
+
+
         setPrimarySection(Section.DRAWER);
         setContent(grid);
+        saveReceiptFile(currentOrder);
+    }
+    public boolean saveReceiptFile(Order o) {
+        String filename = "Order_" + o.getId();
+        int num = 1;
+        File f = new File(filename);
+        while (f.exists()) {
+            f = new File(filename + "(" + num + ").txt");
+        }
+        try {
+            BufferedWriter bw = new BufferedWriter(new FileWriter(f));
+            bw.write(o.receipt());
+            bw.flush();
+            bw.close();
+            f.createNewFile();
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false;
+        }
+        return true;
     }
 }
