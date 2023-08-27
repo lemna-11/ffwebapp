@@ -20,11 +20,12 @@ import java.io.IOException;
 @Route("pickup")
 public class ResultPage extends AppLayout {
     public ResultPage(OrderCaller ord){
-        H1 title = new H1("Thank you for using our web store");
+        Order currentOrder = singleorder.getOrder();
+
+        H1 title = new H1("Thank you for using our web store. Your order number is " + currentOrder.getId());
         title.getStyle().set("font-size", "var(--lumo-font-size-l)")
                 .set("margin", "var(--lumo-space-m)");
         addToNavbar(title);
-        Order currentOrder = singleorder.getOrder();
         Grid<Product> grid = new Grid<>(Product.class, false);
         grid.addColumn(Product::getName).setHeader("Name");
         grid.addColumn(product -> product.getCategory().getCategoryName()).setHeader("Category");
@@ -33,10 +34,8 @@ public class ResultPage extends AppLayout {
 
         Button exit = new Button("Exit order");
         exit.addClickListener(buttonClickEvent -> {
-            currentOrder.setStatus(OrderStatus.COMPLETED);
-            ord.update(currentOrder.getId(), currentOrder.getProducts(), currentOrder.getStatus());
-            singleorder.setOrder(null);
-            UI.getCurrent().navigate("");
+
+            UI.getCurrent().navigate("finalplace");
         });
         addToDrawer(exit);
 

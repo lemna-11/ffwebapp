@@ -3,7 +3,6 @@ package com.example.ffwebapp.middleware.callers;
 import com.example.ffwebapp.middleware.entities.Order;
 import com.example.ffwebapp.middleware.entities.OrderStatus;
 import com.example.ffwebapp.middleware.entities.Product;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -49,9 +48,10 @@ public class OrderCaller {
         return Arrays.asList(restTemplate.getForEntity(baseURI + "/readAll", Product[].class).getBody());
     }
 
-    public List<ResponseEntity<Order[]>> readAllOrders(){
-        return Arrays.asList(restTemplate.getForEntity(baseURI + "/readAllOrders", Order[].class));
+    public List<Order> readAllOrders(){
+        return Arrays.asList(restTemplate.getForEntity(baseURI + "/readAllOrders", Order[].class).getBody());
     }
+
 
 
 }
