@@ -29,16 +29,16 @@ public class TakeoutPage extends AppLayout {
             Grid<Order> grid = new Grid<>(Order.class, false);
             grid.addColumn(Order::getId).setHeader("ID");
             grid.addColumn(Order::getStatus).setHeader("Status");
-            grid.addColumn(order ->{
-                Button finishbuton =  new Button();
+            grid.addComponentColumn(order ->{
+                Button finishbuton =  new Button("Finish");
                 finishbuton.addClickListener(buttonClickEvent -> {
                     order.setStatus(OrderStatus.COMPLETED);
-
+                    grid.setItems(allOrders.stream().filter(someOrder -> someOrder.getStatus() != OrderStatus.CANCELLED && someOrder.getStatus() != OrderStatus.COMPLETED).collect(Collectors.toList()));
                 });
                 return finishbuton;
-            });
+            }).setHeader("Finish button");
             addToNavbar(toggle);
-            allOrders.stream().filter(order -> order.getStatus() != OrderStatus.CANCELLED && order.getStatus() != OrderStatus.COMPLETED).collect(Collectors.toList());
+            grid.setItems(allOrders.stream().filter(order -> order.getStatus() != OrderStatus.CANCELLED && order.getStatus() != OrderStatus.COMPLETED).collect(Collectors.toList()));
 
             setPrimarySection(Section.DRAWER);
 
